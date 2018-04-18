@@ -1,0 +1,124 @@
+0:0:0.000000110 DEBUG (6): Request topology by node 6 to 7 Time: 0:0:0.000000110
+0:0:0.000000110 DEBUG (5): Request topology by node 5 to 7 Time: 0:0:0.000000110
+0:0:0.000000110 DEBUG (0): Request topology by node 0 to 7 Time: 0:0:0.000000110
+0:0:0.000000110 DEBUG (2): Request topology by node 2 to 7 Time: 0:0:0.000000110
+0:0:0.000000110 DEBUG (3): Request topology by node 3 to 7 Time: 0:0:0.000000110
+0:0:0.000000110 DEBUG (1): Request topology by node 1 to 7 Time: 0:0:0.000000110
+0:0:0.000000110 DEBUG (4): Request topology by node 4 to 7 Time: 0:0:0.000000110
+0:0:0.001602273 DEBUG (1): Will check if count change 0:0:0.001602273
+0:0:0.001602273 DEBUG (1): Check if count change of node 3 count: 1 0
+0:0:0.001602273 DEBUG (1): Count changed 1
+0:0:0.001602273 DEBUG (1): descendants 1
+0:0:0.001602273 DEBUG (1): Recebeu com saltos menor atualiza 1 0:0:0.001602273
+0:0:0.001602273 DEBUG (1): Forward: 0:0:0.001602273
+0:0:0.001602273 DEBUG (1): Configura parent 3 Time: 0:0:0.001602273
+0:0:0.001602273 DEBUG (1): Encaminha Time: 0:0:0.001602273
+0:0:0.001846412 DEBUG (2): Will check if count change 0:0:0.001846412
+0:0:0.001846412 DEBUG (2): Check if count change of node 5 count: 1 0
+0:0:0.001846412 DEBUG (2): Count changed 1
+0:0:0.001846412 DEBUG (2): descendants 1
+0:0:0.001846412 DEBUG (2): Recebeu com saltos menor atualiza 1 0:0:0.001846412
+0:0:0.001846412 DEBUG (2): Forward: 0:0:0.001846412
+0:0:0.001846412 DEBUG (2): Configura parent 5 Time: 0:0:0.001846412
+0:0:0.001846412 DEBUG (2): Encaminha Time: 0:0:0.001846412
+0:0:0.004119959 DEBUG (6): Will check if count change 0:0:0.004119959
+0:0:0.004119959 DEBUG (6): Check if count change of node 5 count: 1 0
+0:0:0.004119959 DEBUG (6): Count changed 1
+0:0:0.004119959 DEBUG (6): descendants 1
+0:0:0.004119959 DEBUG (6): Recebeu com saltos menor atualiza 2 0:0:0.004119959
+0:0:0.004119959 DEBUG (6): Forward: 0:0:0.004119959
+0:0:0.004119959 DEBUG (6): Configura parent 5 Time: 0:0:0.004119959
+0:0:0.004119959 DEBUG (6): Encaminha Time: 0:0:0.004119959
+0:0:0.004119959 DEBUG (5): Will check if count change 0:0:0.004119959
+0:0:0.004119959 DEBUG (5): Check if count change of node 5 count: 1 0
+0:0:0.004119959 DEBUG (5): Count changed 1
+0:0:0.004119959 DEBUG (5): descendants 1
+0:0:0.004119959 DEBUG (5): Recebeu com saltos menor atualiza 2 0:0:0.004119959
+0:0:0.004119959 DEBUG (5): Forward: 0:0:0.004119959
+0:0:0.004119959 DEBUG (5): Configura parent 5 Time: 0:0:0.004119959
+0:0:0.004119959 DEBUG (5): Encaminha Time: 0:0:0.004119959
+0:0:0.004119969 DEBUG (5): Task sendBeaconTask
+0:0:0.005600053 DEBUG (2): Will check if count change 0:0:0.005600053
+0:0:0.005600053 DEBUG (2): Check if count change of node 5 count: 1 1
+0:0:0.005600053 DEBUG (2): descendants 1
+0:0:0.007904126 DEBUG (2): Will check if count change 0:0:0.007904126
+0:0:0.007904126 DEBUG (2): Check if count change of node 5 count: 1 1
+0:0:0.007904126 DEBUG (2): descendants 1
+0:0:0.008331360 DEBUG (1): Will check if count change 0:0:0.008331360
+0:0:0.008331360 DEBUG (1): Check if count change of node 4 count: 1 0
+0:0:0.008331360 DEBUG (1): Count changed 1
+0:0:0.008331360 DEBUG (1): descendants 2
+0:0:0.010147145 DEBUG (2): Will check if count change 0:0:0.010147145
+0:0:0.010147145 DEBUG (2): Check if count change of node 0 count: 1 0
+0:0:0.010147145 DEBUG (2): Count changed 1
+0:0:0.010147145 DEBUG (2): descendants 2
+0:0:0.010147145 DEBUG (1): Will check if count change 0:0:0.010147145
+0:0:0.010147145 DEBUG (1): Check if count change of node 0 count: 1 0
+0:0:0.010147145 DEBUG (1): Count changed 1
+0:0:0.010147145 DEBUG (1): descendants 3
+0:0:0.012725865 DEBUG (4): Will check if count change 0:0:0.012725865
+0:0:0.012725865 DEBUG (4): Check if count change of node 3 count: 1 0
+0:0:0.012725865 DEBUG (4): Count changed 1
+0:0:0.012725865 DEBUG (4): descendants 1
+0:0:0.012725865 DEBUG (4): Recebeu com saltos menor atualiza 2 0:0:0.012725865
+0:0:0.012725865 DEBUG (4): Forward: 0:0:0.012725865
+0:0:0.012725865 DEBUG (4): Configura parent 3 Time: 0:0:0.012725865
+0:0:0.012725865 DEBUG (4): Encaminha Time: 0:0:0.012725865
+0:0:0.012725865 DEBUG (3): Will check if count change 0:0:0.012725865
+0:0:0.012725865 DEBUG (3): Check if count change of node 3 count: 1 0
+0:0:0.012725865 DEBUG (3): Count changed 1
+0:0:0.012725865 DEBUG (3): descendants 1
+0:0:0.012725865 DEBUG (3): Recebeu com saltos menor atualiza 2 0:0:0.012725865
+0:0:0.012725865 DEBUG (3): Forward: 0:0:0.012725865
+0:0:0.012725865 DEBUG (3): Configura parent 3 Time: 0:0:0.012725865
+0:0:0.012725865 DEBUG (3): Encaminha Time: 0:0:0.012725865
+0:0:0.012725875 DEBUG (4): Task sendBeaconTask
+0:0:0.012725875 DEBUG (3): Task sendBeaconTask
+0:0:0.020004275 DEBUG (1): Will check if count change 0:0:0.020004275
+0:0:0.020004275 DEBUG (1): Check if count change of node 4 count: 1 1
+0:0:0.020004275 DEBUG (1): descendants 3
+0:0:0.023193344 DEBUG (1): Will check if count change 0:0:0.023193344
+0:0:0.023193344 DEBUG (1): Check if count change of node 3 count: 1 1
+0:0:0.023193344 DEBUG (1): descendants 3
+0:0:0.976562610 DEBUG (2): Request topology by node 2 to 7 Time: 0:0:0.976562610
+0:0:0.976562610 DEBUG (3): Request topology by node 3 to 7 Time: 0:0:0.976562610
+0:0:0.976562610 DEBUG (6): Request topology by node 6 to 7 Time: 0:0:0.976562610
+0:0:0.976562610 DEBUG (1): Request topology by node 1 to 7 Time: 0:0:0.976562610
+0:0:0.976562610 DEBUG (5): Request topology by node 5 to 7 Time: 0:0:0.976562610
+0:0:0.976562610 DEBUG (4): Request topology by node 4 to 7 Time: 0:0:0.976562610
+0:0:0.976562610 DEBUG (0): Request topology by node 0 to 7 Time: 0:0:0.976562610
+0:0:0.980056852 DEBUG (2): Will check if count change 0:0:0.980056852
+0:0:0.980056852 DEBUG (2): Check if count change of node 0 count: 1 1
+0:0:0.980056852 DEBUG (2): descendants 2
+0:0:0.981292807 DEBUG (2): Will check if count change 0:0:0.981292807
+0:0:0.981292807 DEBUG (2): Check if count change of node 5 count: 2 1
+0:0:0.981292807 DEBUG (2): Count changed 2
+0:0:0.981292807 DEBUG (2): descendants 3
+0:0:0.982193070 DEBUG (1): Will check if count change 0:0:0.982193070
+0:0:0.982193070 DEBUG (1): Check if count change of node 3 count: 2 1
+0:0:0.982193070 DEBUG (1): Count changed 2
+0:0:0.982193070 DEBUG (1): descendants 4
+0:0:0.982376174 DEBUG (2): Will check if count change 0:0:0.982376174
+0:0:0.982376174 DEBUG (2): Check if count change of node 6 count: 2 0
+0:0:0.982376174 DEBUG (2): Count changed 2
+0:0:0.982376174 DEBUG (2): descendants 5
+0:0:0.983856268 DEBUG (6): Will check if count change 0:0:0.983856268
+0:0:0.983856268 DEBUG (6): Check if count change of node 2 count: 3 0
+0:0:0.983856268 DEBUG (6): Count changed 3
+0:0:0.983856268 DEBUG (6): descendants 4
+0:0:0.983856268 DEBUG (6): Recebeu com saltos menor atualiza 1 0:0:0.983856268
+0:0:0.983856268 DEBUG (5): Will check if count change 0:0:0.983856268
+0:0:0.983856268 DEBUG (5): Check if count change of node 2 count: 3 0
+0:0:0.983856268 DEBUG (5): Count changed 3
+0:0:0.983856268 DEBUG (5): descendants 4
+0:0:0.983856268 DEBUG (5): Recebeu com saltos menor atualiza 1 0:0:0.983856268
+0:0:0.985366880 DEBUG (4): Will check if count change 0:0:0.985366880
+0:0:0.985366880 DEBUG (4): Check if count change of node 1 count: 4 0
+0:0:0.985366880 DEBUG (4): Count changed 4
+0:0:0.985366880 DEBUG (4): descendants 5
+0:0:0.985366880 DEBUG (4): Recebeu com saltos menor atualiza 1 0:0:0.985366880
+0:0:0.985366880 DEBUG (3): Will check if count change 0:0:0.985366880
+0:0:0.985366880 DEBUG (3): Check if count change of node 1 count: 4 0
+0:0:0.985366880 DEBUG (3): Count changed 4
+0:0:0.985366880 DEBUG (3): descendants 5
+0:0:0.985366880 DEBUG (3): Recebeu com saltos menor atualiza 1 0:0:0.985366880
