@@ -10,7 +10,7 @@ Topologia fixa. Pai salvo
 
 
 
-root = 0
+root = 0 parent(0) = -1
 parent(1) = 0
 parent(2) = 0
 parent(3) = 1
@@ -62,7 +62,7 @@ implementation {
 
 
 	/*keeps track of whether the radio is on.*/
-	am_addr_t parent; //Node keep only one parent in requisition mode
+	int16_t parent; //Node keep only one parent in requisition mode
 
 
 	/*keeps track of whether the radio is on.*/
@@ -100,13 +100,10 @@ implementation {
 	uint8_t pos_bufferTopo = 0;
 	uint8_t pos_bufferData = 0;
 
-	//Seta no fonte
-	am_addr_t source_node = 7;
-
 	uint16_t counter[TOTAL_NODES];
 	uint16_t descendants = 0;
 	uint16_t time = 30;
-	uint16_t maxTime = 30; // 30 s
+	uint16_t maxTime = 30000; // 30 s
 	bool stopBeacons = FALSE;
 
 
@@ -122,7 +119,7 @@ task void replyTopoTask();
 		error_t eval;		
 		request_topo_t* beaconMsg = (request_topo_t*) call SendRequest.getPayload(&beaconMsgBuffer, sizeof(request_topo_t) );
 		beaconMsg->seqno = count;
-		beaconMsg->request_id = source_node;
+		beaconMsg->request_id = parent;
 		beaconMsg->hops = 0;
 		beaconMsg->count = descendants;
 
@@ -134,7 +131,7 @@ task void replyTopoTask();
 		 eval = call SendRequest.send(AM_BROADCAST_ADDR, &beaconMsgBuffer, sizeof(request_topo_t));
 		 if (eval == SUCCESS) {
 		 	sending = TRUE;
-		 	dbg("RequestTopo", "[Request topology] Send beacon. Parent: %d. Time: %s\n", parent, sim_time_string());
+		 	dbg("SendBeacon", ">> Send beacon to: %d. Time: %s\n", parent, sim_time_string());
 		 	call Leds.led1Toggle();
 		 	call Leds.led2Toggle();
 		}
@@ -174,14 +171,15 @@ task void replyTopoTask();
   	    for(i = 0; i < TOTAL_NODES; i++) {
             descendants += counter[i];
   	    }
-  	    dbg("RequestTopo", "descendants %d\n", descendants);
+  	    dbg("Descendants", "descendants %d\n", descendants);
     }
 
     void changed_counter(uint16_t origin, uint16_t count, uint16_t counter[TOTAL_NODES]){
     	dbg("RequestTopo", "[Request topology] Changed counter Check if count change of node %d count: %d %d\n", origin, count, counter[origin]);
     	if (counter[origin] < count) {
     		counter[origin] = count; //Update counter[]
-    		dbg("RequestTopo", "Count changed %d\n", counter[origin]);
+    		dbg("Descendants", "Count changed to %d\n  Reset timer", counter[origin]);
+    		time = 30;
     	}
     }
 
@@ -275,7 +273,7 @@ task void replyTopoTask();
 		clean_counter();
 		//########Inicializa parents of nodes ######//
 		if (TOS_NODE_ID == 0) {
-			parent = 0; // root node
+			parent = -1; // root node
 		} else if ( (TOS_NODE_ID == 1) || (TOS_NODE_ID == 2) ) {
 			parent = 0;
 		} else if ((TOS_NODE_ID == 3) || (TOS_NODE_ID == 4) ) {
@@ -367,7 +365,7 @@ task void replyTopoTask();
 		dbg("Time", "Periodic time: %d\n", time);
 		initBeacon();
 		if (time > maxTime) {
-			dbg("Time", "Stop time: %d\n", time);
+			dbg("Time", "Stop time: %d %d\n", time, maxTime);
 			call TimerPeriodic.stop();
 		}
 	}
@@ -383,11 +381,11 @@ task void replyTopoTask();
 		uint16_t counterDescendants;
 
 	
-		#if defined(PLATFORM_MICAZ)
-		if(TOS_NODE_ID == 0){
-			return msg;
-		}
-		#endif
+		// #if defined(PLATFORM_MICAZ)
+		// if(TOS_NODE_ID == 0){
+		// 	return msg;
+		// }
+		// #endif
 
 
 		from = call AMPacket.source(msg);
@@ -397,35 +395,18 @@ task void replyTopoTask();
 		hops_rcv = rcvBeacon->hops;
 		counterDescendants = rcvBeacon->count + 1;
 
-		dbg("RequestTopo", "[Request topology] Receive Request topo from node %d. Time %s\n", from, sim_time_string());
-		changed_counter(from, counterDescendants, counter);
-		count_descendants();
 
-
-		if(hops_rcv < hops){
-			hops = hops_rcv;
-			dbg("RequestTopo", "Recebeu com saltos menor atualiza %d %s\n", hops + 1, sim_time_string());
-			rcvBeacon->hops = hops + 1;
-		}
 
 		//dbg("RequestTopo", "Received rcvBeacon->seqno %hhu. Time: %s\n", rcvBeacon->seqno , sim_time_string());
-		if((seqnoAux > seqnoReqTopo) || hops_rcv < hops ){
 			// if this select source is for me
 			if (request_id == TOS_NODE_ID){
 				dbg("RequestTopo", "Mensagem de %d eh p mim trata: %s\n", from, sim_time_string());
+				dbg("RequestTopo", "[Request topology] Receive Request topo from node %d. Time %s\n", from, sim_time_string());
+				dbg("Descendants", "<< Beacon received is from child? %d. Time %s\n", from, sim_time_string());
+				changed_counter(from, counterDescendants, counter);
+				count_descendants();
 				//post
 			}
-			else{
-				dbg("RequestTopo", "Forward: %s\n", sim_time_string());
-				seqnoReqTopo = seqnoAux;
-				dbg("RequestTopo", "Configura parent %d Time: %s\n", parent,  sim_time_string());
-				dbg("RequestTopo", "Encaminha Time: %s\n", sim_time_string());
-				//dbg("RequestTopo", "Received seqnoAux %hhu seqno %hhu. Time: %s\n", seqnoAux, seqno, sim_time_string());
-				beaconMsgBuffer = *msg;
-				post sendBeaconTask();
-			}
-		}
-
 
 		return msg;
 
