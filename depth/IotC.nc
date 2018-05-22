@@ -77,9 +77,9 @@ implementation {
 	uint16_t seqnoReplyTopo = 0;
 	uint8_t hops = 255;
 
-#if defined(PLATFORM_MICAZ)
+
 	uint8_t count = 1;
-#endif
+
 
 	uint16_t seqnoOrigTopo = 1;
 	uint16_t seqnoOrigData = 1;
@@ -114,7 +114,6 @@ task void replyTopoTask();
 #endif
 
 
-#if defined(PLATFORM_MICAZ)
 	void initBeacon(){
 		error_t eval;		
 		request_topo_t* beaconMsg = (request_topo_t*) call SendRequest.getPayload(&beaconMsgBuffer, sizeof(request_topo_t) );
@@ -138,7 +137,6 @@ task void replyTopoTask();
 	}
 
 
-#endif
 
     bool check_node(uint16_t origin, uint16_t buf[TAM_BUF]){
         uint8_t i;
