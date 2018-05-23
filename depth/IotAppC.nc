@@ -1,11 +1,15 @@
+#define NEW_PRINTF_SEMANTICS
 #include "Iot.h"
-
+#include "printf.h"
 configuration IotAppC { }
 
 implementation {
 
   components  MainC, LedsC, ActiveMessageC;
   components IotC as App;
+
+  components PrintfC;
+  components SerialStartC; 
   components new AMSenderC(AM_REQ_TOPO) as SenderReq;
   components new AMReceiverC(AM_REQ_TOPO) as ReceiverReq;
 
@@ -19,11 +23,13 @@ implementation {
 
 
   //serial
-  // components SerialActiveMessageC as Serial;
+  components SerialActiveMessageC as Serial;
 
-  // App.SerialControl -> Serial;
+ 
+  App.SerialControl -> Serial;
+
   
-  // App.UartSend -> Serial;
+  App.UartSend -> Serial;
   // App.UartReceive -> Serial.Receive;
   // App.UartPacket -> Serial;
   // App.UartAMPacket -> Serial;

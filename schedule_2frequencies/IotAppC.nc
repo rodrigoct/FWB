@@ -1,4 +1,7 @@
 #include "Iot.h"
+#define NEW_PRINTF_SEMANTICS
+#include "printf.h"
+
 
 configuration IotAppC { }
 
@@ -16,6 +19,11 @@ implementation {
   components new TimerMilliC() as ReplyTimerC;
   components new TimerMilliC() as PeriodicTimerC;
   components RandomC;
+
+
+  components PrintfC;
+  components SerialStartC;
+
 
   //CC2420C
   components CC2420ControlC;

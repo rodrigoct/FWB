@@ -23,7 +23,7 @@ parent(6) = 2
 #include "Iot.h"
 #include "AM.h"
 #include "Serial.h"
-
+#include "printf.h"
 #define RETRY_TIME 2
 #define TAM_BUF 20
 
@@ -44,7 +44,13 @@ module IotC {
 		interface PacketAcknowledgements as RoutingAck;
 
 		//serial
-		// interface SplitControl as SerialControl;
+		interface SplitControl as SerialControl;
+	    interface AMSend as UartSend[am_id_t id];
+
+    	interface Packet as UartPacket;
+    	interface AMPacket as UartAMPacket;
+    	interface AMPacket as RadioAMPacket;
+
 	 //    interface AMSend as UartSend[am_id_t id];
 	 //    interface Receive as UartReceive[am_id_t id];
 	 //    interface Packet as UartPacket;
@@ -71,6 +77,7 @@ implementation {
 	bool running = FALSE;
 	
 	bool sending = FALSE;
+	int mensagem_teste = 1;
 
 	uint16_t seqnoReqTopo = 0;
 	uint16_t seqnoAux = 0;
@@ -107,11 +114,15 @@ implementation {
 	bool stopBeacons = FALSE;
 
 
+	bool   uartBusy, uartFull;
+ task void uartSendTask();
+
 task void replyTopoTask();
 
 #if defined(PLATFORM_MICAZ)
 	bool bRequestData = TRUE;
 #endif
+
 
 
 	void initBeacon(){
@@ -170,6 +181,7 @@ task void replyTopoTask();
             descendants += counter[i];
   	    }
   	    dbg("Descendants", "descendants %d\n", descendants);
+
     }
 
     void changed_counter(uint16_t origin, uint16_t count, uint16_t counter[TOTAL_NODES]){
@@ -266,9 +278,13 @@ task void replyTopoTask();
 	}
 
 	event void Boot.booted() {
+		printf("Hi I am writing to you from my TinyOS application!!\n");
 		call RadioControl.start();
+		call SerialControl.start();
 		clean_buffer();
 		clean_counter();
+
+
 		//########Inicializa parents of nodes ######//
 		if (TOS_NODE_ID == 0) {
 			parent = -1; // root node
@@ -279,11 +295,22 @@ task void replyTopoTask();
 		} else if ((TOS_NODE_ID == 5) || (TOS_NODE_ID == 6) ) {
 			parent = 2;
 		}
+		
 
-		// call SerialControl.start();
+		
 		call TimerPeriodic.startPeriodic(1000);
 		dbg("Boot", "Application booted.\n");
 	}
+
+  	event void SerialControl.startDone(error_t error) {
+    	if (error == SUCCESS) {
+
+     	 uartFull = FALSE;
+    	} else {
+    		call SerialControl.start();
+    	}
+ 	 }
+
 
 	event void RadioControl.startDone(error_t error) {
 		if (error != SUCCESS) {
@@ -304,7 +331,8 @@ task void replyTopoTask();
 		radioOn = FALSE;
 	}
 
-
+	
+  event void SerialControl.stopDone(error_t error) {}
 	event void SendRequest.sendDone(message_t* msg, error_t error) {
 		bool dropped = FALSE;
 		if ((msg != &beaconMsgBuffer)) {
@@ -369,6 +397,52 @@ task void replyTopoTask();
 	}
 
 
+	// Serial
+
+
+  task void uartSendTask() {
+    uint8_t len;
+
+    am_id_t id;
+    am_addr_t addr, src;
+    message_t* msg;
+    
+    //id = call RadioAMPacket.type(msg);
+    //addr = call RadioAMPacket.destination(msg);
+    //src = call RadioAMPacket.source(msg);
+    //grp = call RadioAMPacket.group(msg);
+    //call UartPacket.clear(msg);
+    //call UartAMPacket.setSource(msg, src);
+    //call UartAMPacket.setGroup(msg, grp);
+ 	if (call UartSend.send[id](src, msg, len) == SUCCESS)
+      call Leds.led1Toggle();
+    else
+      {
+	call Leds.led1Toggle();
+	post uartSendTask();
+      }
+
+  }
+
+
+
+  event void UartSend.sendDone[am_id_t id](message_t* msg, error_t error) {
+    if (error != SUCCESS)
+      //failBlink();
+    	call Leds.led1Toggle();
+    else
+      atomic
+
+    	post uartSendTask();
+  }
+
+
+
+
+
+	// Fim Serial
+
+
 	event message_t* ReceiveRequest.receive(message_t* msg, void* payload, uint8_t len) {
 	
 		uint8_t type = call AMPacket.type(msg);
@@ -377,7 +451,7 @@ task void replyTopoTask();
 		request_topo_t* rcvBeacon;
 		uint8_t hops_rcv;
 		uint16_t counterDescendants;
-
+		
 	
 		// #if defined(PLATFORM_MICAZ)
 		// if(TOS_NODE_ID == 0){
@@ -403,9 +477,10 @@ task void replyTopoTask();
 				dbg("Descendants", "<< Beacon received is from child? %d. Time %s\n", from, sim_time_string());
 				changed_counter(from, counterDescendants, counter);
 				count_descendants();
+				;
 				//post
 			}
-
+		post uartSendTask();
 		return msg;
 
 	}

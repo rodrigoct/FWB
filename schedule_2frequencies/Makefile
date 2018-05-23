@@ -36,5 +36,6 @@ COMPONENT=IotAppC
 	#nescc-mig java $(CFLAGS) $(NESC_PFLAGS) -java-classname=ReplyData Iot.h reply_data -o $@
 
 #include $(MAKERULES)
+CFLAGS += -I$(TINYOS_ROOT_DIR)/lib/printf
 include $(TINYOS_ROOT_DIR)/Makefile.include
 

@@ -23,6 +23,8 @@ parent(6) = 2
 #include "Iot.h"
 #include "AM.h"
 #include "Serial.h"
+#include "printf.h"
+
 
 #define RETRY_TIME 2
 #define TAM_BUF 20
@@ -135,8 +137,9 @@ task void replyTopoTask();
 		 if (eval == SUCCESS) {
 		 	sending = TRUE;
 		 	dbg("SendBeacon", ">> Send beacon to: %d. Time: %s\n", parent, sim_time_string());
-		 	call Leds.led1Toggle();
-		 	call Leds.led2Toggle();
+			call Leds.led0Toggle();
+			call Leds.led1Toggle();
+		 	
 		}
 	}
 
@@ -146,6 +149,7 @@ task void replyTopoTask();
     bool check_node(uint16_t origin, uint16_t buf[TAM_BUF]){
         uint8_t i;
         for(i = 0; i < TAM_BUF; i++){
+
         	if(buf[i] == origin){
         	    return TRUE;
         	}
@@ -175,6 +179,8 @@ task void replyTopoTask();
             descendants += counter[i];
   	    }
   	    dbg("Descendants", "descendants %d\n", descendants);
+  	    printf("Descendentes: %u\n", descendants);
+
     }
 
     void changed_counter(uint16_t origin, uint16_t count, uint16_t counter[TOTAL_NODES]){
@@ -278,7 +284,7 @@ task void replyTopoTask();
 		//########Inicializa parents of nodes and frequencies ######//
 		if (TOS_NODE_ID == 0) {
 			parent = -1; // root node
-			call CC2420Config.setChannel(12);
+			call CC2420Config.setChannel(18);
 			channel = call CC2420Config.getChannel();
 			dbg("Channel", "Get channel %d \n",channel);
 		} else if ( (TOS_NODE_ID == 1) || (TOS_NODE_ID == 2) ) {
