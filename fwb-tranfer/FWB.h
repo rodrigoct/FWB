@@ -14,6 +14,7 @@ typedef nx_struct data_to_topo{
     nx_uint8_t         hops;
     nx_uint16_t        request_id;
     nx_uint16_t        count;
+    nx_uint8_t         start; //70 to init
 } data_to_topo_t;     
 
 

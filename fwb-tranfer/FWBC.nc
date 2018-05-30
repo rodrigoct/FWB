@@ -36,7 +36,7 @@ Considerando cada slot de tempo como 1 segundo -> Diminuir
 #include "FWB.h"
 #include "AM.h"
 #include "Serial.h"
-//#include "printf.h"
+#include "printf.h"
 
 
 #define RETRY_TIME 2
@@ -126,6 +126,53 @@ implementation {
 	uint8_t channel;
 
 
+	void initTransmission() {
+		
+		call Leds.led0Toggle();
+		call Leds.led1Toggle();
+
+
+		//########Inicializa parents of nodes and frequencies ######//
+		if (TOS_NODE_ID == 0) {
+			parent = -1; // root node
+			//call CC2420Config.setChannel(18);
+			channel = call CC2420Config.getChannel();
+			dbg("Channel", "Get channel %d \n",channel);
+		} else if ( (TOS_NODE_ID == 1) ) {
+			parent = 0;
+			//call CC2420Config.setChannel(18);
+			call TimerPeriodic.startOneShot(1);
+			call TimerPeriodic2.startOneShot(4);
+			call TimerPeriodic3.startOneShot(5);
+		} else if ( (TOS_NODE_ID == 2) ) {
+			parent = 0;
+			//call CC2420Config.setChannel(18);
+			call TimerPeriodic.startOneShot(2);
+			call TimerPeriodic2.startOneShot(3);
+		} else if ((TOS_NODE_ID == 3) ) {
+			parent = 1;
+			call TimerPeriodic.startOneShot(2);
+		} else if ((TOS_NODE_ID == 4) ) {
+			parent = 1;
+			call TimerPeriodic.startOneShot(3);
+		}  else if ((TOS_NODE_ID == 5) ) {
+			parent = 2;
+			//call CC2420Config.setChannel(12);
+			call TimerPeriodic.startOneShot(1);
+		} 
+		// else if ((TOS_NODE_ID == 6) ) {
+		// 	parent = 9;
+		// 	//call CC2420Config.setChannel(11);
+		// } else if ( (TOS_NODE_ID == 8) || (TOS_NODE_ID == 9) ) {
+		// 	parent = 7;
+		// 	//call CC2420Config.setChannel(15);
+		// }
+
+		channel = call CC2420Config.getChannel();
+		dbg("Channel", "Get channel %d \n",channel);
+		// call SerialControl.start();
+		dbg("Boot", "Application booted.\n");
+	}
 	void initData(){
 		error_t eval;		
 		data_to_topo_t* dataMsg = (data_to_topo_t*) call SendData.getPayload(&dataMsgBuffer, sizeof(data_to_topo_t) );
@@ -133,6 +180,7 @@ implementation {
 		dataMsg->request_id = parent;
 		dataMsg->hops = 0;
 		dataMsg->count = descendants;
+		dataMsg->start = 20;
 
 		if(sending){
 			return;
@@ -143,12 +191,38 @@ implementation {
 		 	sending = TRUE;
 		 	seqno++;
 		 	dbg("SendData", ">> Send data to: %d. Time: %s\n", parent, sim_time_string());
-			call Leds.led0Toggle();
-			call Leds.led1Toggle();
+			call Leds.led2Toggle();
+			//call Leds.led1Toggle();
 		 	
 		}
 	}
 
+
+	void initStartData() {
+		error_t eval;		
+		data_to_topo_t* dataMsg = (data_to_topo_t*) call SendData.getPayload(&dataMsgBuffer, sizeof(data_to_topo_t) );
+		dataMsg->seqno = seqno;
+		dataMsg->request_id = parent;
+		dataMsg->hops = 0;
+		dataMsg->count = descendants;
+		dataMsg->start = 70;
+		call Leds.led0Toggle();
+		call Leds.led1Toggle();
+
+		if(sending){
+			return;
+		}
+
+		 eval = call SendData.send(AM_BROADCAST_ADDR, &dataMsgBuffer, sizeof(data_to_topo_t));
+		 if (eval == SUCCESS) {
+		 	sending = TRUE;
+		 	seqno++;
+		 	dbg("SendData", ">> Send data to: %d. Time: %s\n", parent, sim_time_string());
+		 	call Leds.led0Toggle();
+			//call Leds.led0Toggle();
+			//call Leds.led1Toggle();
+		}
+	}
 
     bool check_node(uint16_t origin, uint16_t buf[TAM_BUF]){
         uint8_t i;
@@ -229,46 +303,6 @@ implementation {
 		clean_buffer();
 		clean_counter();
 
-		//########Inicializa parents of nodes and frequencies ######//
-		if (TOS_NODE_ID == 0) {
-			parent = -1; // root node
-			//call CC2420Config.setChannel(18);
-			channel = call CC2420Config.getChannel();
-			dbg("Channel", "Get channel %d \n",channel);
-		} else if ( (TOS_NODE_ID == 1) ) {
-			parent = 0;
-			//call CC2420Config.setChannel(18);
-			call TimerPeriodic.startOneShot(1);
-			call TimerPeriodic2.startOneShot(4);
-			call TimerPeriodic3.startOneShot(5);
-		} else if ( (TOS_NODE_ID == 2) ) {
-			parent = 0;
-			//call CC2420Config.setChannel(18);
-			call TimerPeriodic.startOneShot(2);
-			call TimerPeriodic2.startOneShot(3);
-		} else if ((TOS_NODE_ID == 3) ) {
-			parent = 1;
-			call TimerPeriodic.startOneShot(2);
-		} else if ((TOS_NODE_ID == 4) ) {
-			parent = 1;
-			call TimerPeriodic.startOneShot(3);
-		}  else if ((TOS_NODE_ID == 5) ) {
-			parent = 2;
-			//call CC2420Config.setChannel(12);
-			call TimerPeriodic.startOneShot(1);
-		} 
-		// else if ((TOS_NODE_ID == 6) ) {
-		// 	parent = 9;
-		// 	//call CC2420Config.setChannel(11);
-		// } else if ( (TOS_NODE_ID == 8) || (TOS_NODE_ID == 9) ) {
-		// 	parent = 7;
-		// 	//call CC2420Config.setChannel(15);
-		// }
-
-		channel = call CC2420Config.getChannel();
-		dbg("Channel", "Get channel %d \n",channel);
-		// call SerialControl.start();
-		dbg("Boot", "Application booted.\n");
 	}
 
 	event void RadioControl.startDone(error_t error) {
@@ -276,6 +310,13 @@ implementation {
 			call RadioControl.start();
 		} else {
 			radioOn = TRUE;
+			//###########START NODE########//
+			if (TOS_NODE_ID == 70) {
+				//call CC2420Config.setChannel(18);
+				channel = call CC2420Config.getChannel();
+				dbg("START", "Start node Get channel %d \n",channel);
+				initStartData();
+			}
 		}
 	}
 
@@ -343,6 +384,7 @@ implementation {
 		am_addr_t request_id;
 		data_to_topo_t* rcvData;
 		uint8_t hops_rcv;
+		uint8_t start;
 		uint16_t counterDescendants;
 
 
@@ -352,20 +394,26 @@ implementation {
 		request_id = rcvData->request_id;
 		hops_rcv = rcvData->hops;
 		counterDescendants = rcvData->count + 1;
+		start = rcvData->start;
+		printf("Origin: %u Packet: %u\n", from, seqnoAux);
 
-			// if this select source is for me
-			if (request_id == TOS_NODE_ID){
-				dbg("ReceivedData", "Mensagem de %d eh p mim seqno %hhu: %s\n", from, seqnoAux, sim_time_string());
-				//printf("Origin: %u Packet: %u\n", from, seqnoAux);
-				dbg("Channel", "Get channel %d \n",channel);
+		if(start == 70) {
+			initTransmission();
+		}
 
-				if(TOS_NODE_ID == 0){
-					dbg("ROOT", "ROOT Mensagem de %d eh p mim seqno %hhu: %s\n", from, seqnoAux, sim_time_string());
-					return msg;
-				}
+		// if this select source is for me
+		if (request_id == TOS_NODE_ID){
+			dbg("ReceivedData", "Mensagem de %d eh p mim seqno %hhu: %s\n", from, seqnoAux, sim_time_string());
+			printf("Origin: %u Packet: %u\n", from, seqnoAux);
+			dbg("Channel", "Get channel %d \n",channel);
+
+			if(TOS_NODE_ID == 0){
+				dbg("ROOT", "ROOT Mensagem de %d eh p mim seqno %hhu: %s\n", from, seqnoAux, sim_time_string());
+				return msg;
 			}
+		}
 
-		return msg;
+	return msg;
 
 	}
 
