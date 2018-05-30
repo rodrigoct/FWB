@@ -120,7 +120,7 @@ implementation {
 	uint16_t descendants = 0;
 	uint16_t time = 30;
 	uint16_t maxTime = 30000; // 30 s
-	uint16_t timeFrame = 5000;
+	uint16_t timeFrame = 5;
 	bool stopBeacons = FALSE;
 
 	uint8_t channel;
@@ -238,24 +238,24 @@ implementation {
 		} else if ( (TOS_NODE_ID == 1) ) {
 			parent = 0;
 			//call CC2420Config.setChannel(18);
-			call TimerPeriodic.startOneShot(1000);
-			call TimerPeriodic2.startOneShot(4000);
-			call TimerPeriodic3.startOneShot(5000);
+			call TimerPeriodic.startOneShot(1);
+			call TimerPeriodic2.startOneShot(4);
+			call TimerPeriodic3.startOneShot(5);
 		} else if ( (TOS_NODE_ID == 2) ) {
 			parent = 0;
 			//call CC2420Config.setChannel(18);
-			call TimerPeriodic.startOneShot(2000);
-			call TimerPeriodic2.startOneShot(3000);
+			call TimerPeriodic.startOneShot(2);
+			call TimerPeriodic2.startOneShot(3);
 		} else if ((TOS_NODE_ID == 3) ) {
 			parent = 1;
-			call TimerPeriodic.startOneShot(2000);
+			call TimerPeriodic.startOneShot(2);
 		} else if ((TOS_NODE_ID == 4) ) {
 			parent = 1;
-			call TimerPeriodic.startOneShot(3000);
+			call TimerPeriodic.startOneShot(3);
 		}  else if ((TOS_NODE_ID == 5) ) {
 			parent = 2;
 			//call CC2420Config.setChannel(12);
-			call TimerPeriodic.startOneShot(1000);
+			call TimerPeriodic.startOneShot(1);
 		} 
 		// else if ((TOS_NODE_ID == 6) ) {
 		// 	parent = 9;
@@ -360,7 +360,7 @@ implementation {
 				dbg("Channel", "Get channel %d \n",channel);
 
 				if(TOS_NODE_ID == 0){
-					dbg("ROOT", "ROOT NODE: Received data Time: %s\n", sim_time_string());
+					dbg("ROOT", "ROOT Mensagem de %d eh p mim seqno %hhu: %s\n", from, seqnoAux, sim_time_string());
 					return msg;
 				}
 			}

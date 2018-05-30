@@ -23,9 +23,10 @@ def simul():
 	saida = open("saida_simulacao.txt", "w")
 	t.addChannel("ReceivedData", saida)
 	#saidaP = open("saidaSink.txt", "w")
-	t.addChannel("Time", sys.stdout)
+	#t.addChannel("Time", sys.stdout)
 	#t.addChannel("SendData", sys.stdout)
 	t.addChannel("ReceivedData", sys.stdout)
+	#t.addChannel("ROOT", sys.stdout)
 
 
 	noise = open("meyer-light.txt", "r")
