@@ -147,7 +147,7 @@ implementation {
 			parent = 1;
 			call TimerPeriodic.startOneShot(2);
 		} else if ((TOS_NODE_ID == 4) ) {
-			parent = 1;
+			parent = 9;
 			call CC2420Config.setChannel(11);
 			call TimerPeriodic.startOneShot(1);
 		}  else if ((TOS_NODE_ID == 5) ) {
