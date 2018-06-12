@@ -316,6 +316,7 @@ implementation {
 				channel = call CC2420Config.getChannel();
 				dbg("START", "Start node Get channel %d \n",channel);
 				initStartData();
+				initTransmission(); //#TODO Toggle
 			}
 		}
 	}
@@ -397,9 +398,9 @@ implementation {
 		start = rcvData->start;
 		printf("Origin: %u Packet: %u\n", from, seqnoAux);
 
-		if(start == 70) {
-			initTransmission();
-		}
+		//if(start == 70) {
+		//	initTransmission();
+		//}
 
 		// if this select source is for me
 		if (request_id == TOS_NODE_ID){
