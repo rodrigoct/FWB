@@ -121,7 +121,7 @@ implementation {
 	uint16_t descendants = 0;
 	uint16_t time = 30;
 	uint16_t maxTime = 30000; // 30 s
-	uint16_t timeFrame = 200;
+	uint16_t timeFrame = 3; //#Tempo de um quadro
 	bool stopBeacons = FALSE;
 
 	uint8_t channel;
