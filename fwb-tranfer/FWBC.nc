@@ -316,8 +316,8 @@ implementation {
 				//call CC2420Config.setChannel(18);
 				channel = call CC2420Config.getChannel();
 				dbg("START", "Start node Get channel %d \n",channel);
-				initStartData();
-				initTransmission(); //#TODO Toggle
+				//initStartData();
+				initTransmission();
 			}
 		}
 	}
