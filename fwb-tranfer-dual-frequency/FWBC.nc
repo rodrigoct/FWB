@@ -198,7 +198,8 @@ implementation {
 		 	sending = TRUE;
 		 	seqno++;
 		 	dbg("SendData", ">> Send data to: %d. Time: %s\n", parent, sim_time_string());
-			call Leds.led2Toggle();
+			call Leds.led0Toggle();
+			call Leds.led1Toggle();
 			//call Leds.led1Toggle();
 		 	
 		}
@@ -413,6 +414,7 @@ implementation {
 			dbg("ReceivedData", "Mensagem de %d eh p mim seqno %hhu: %s\n", from, seqnoAux, sim_time_string());
 			printf("%u\n", seqnoAux);
 			dbg("Channel", "Get channel %d \n",channel);
+			call Leds.led2Toggle();
 
 			if(TOS_NODE_ID == 0){
 				dbg("ROOT", "ROOT Mensagem de %d eh p mim seqno %hhu: %s\n", from, seqnoAux, sim_time_string());
