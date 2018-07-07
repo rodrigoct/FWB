@@ -36,7 +36,7 @@ Considerando cada slot de tempo como 1 segundo -> Diminuir
 #include "FWB.h"
 #include "AM.h"
 #include "Serial.h"
-#include "printf.h"
+//#include "printf.h"
 
 
 #define RETRY_TIME 2
@@ -120,7 +120,7 @@ implementation {
 	uint16_t descendants = 0;
 	uint16_t time = 30;
 	uint16_t maxTime = 30000; // 30 s
-	uint16_t timeFrame = 5;
+	uint16_t timeFrame = 700;
 	bool stopBeacons = FALSE;
 
 	uint8_t channel;
@@ -141,24 +141,24 @@ implementation {
 		} else if ( (TOS_NODE_ID == 1) ) {
 			parent = 0;
 			//call CC2420Config.setChannel(18);
-			call TimerPeriodic.startOneShot(1);
-			call TimerPeriodic2.startOneShot(4);
-			call TimerPeriodic3.startOneShot(5);
+			call TimerPeriodic.startOneShot(200);
+			call TimerPeriodic2.startOneShot(600);
+			call TimerPeriodic3.startOneShot(700);
 		} else if ( (TOS_NODE_ID == 2) ) {
 			parent = 0;
 			//call CC2420Config.setChannel(18);
-			call TimerPeriodic.startOneShot(2);
-			call TimerPeriodic2.startOneShot(3);
+			call TimerPeriodic.startOneShot(400);
+			call TimerPeriodic2.startOneShot(500);
 		} else if ((TOS_NODE_ID == 3) ) {
 			parent = 1;
-			call TimerPeriodic.startOneShot(2);
+			call TimerPeriodic.startOneShot(400);
 		} else if ((TOS_NODE_ID == 4) ) {
 			parent = 1;
-			call TimerPeriodic.startOneShot(3);
+			call TimerPeriodic.startOneShot(500);
 		}  else if ((TOS_NODE_ID == 5) ) {
 			parent = 2;
 			//call CC2420Config.setChannel(12);
-			call TimerPeriodic.startOneShot(1);
+			call TimerPeriodic.startOneShot(200);
 		} 
 		// else if ((TOS_NODE_ID == 6) ) {
 		// 	parent = 9;
@@ -311,7 +311,7 @@ implementation {
 		} else {
 			radioOn = TRUE;
 			//###########START NODE########//
-			if (TOS_NODE_ID == 70) {
+			if (TOS_NODE_ID != 70) {
 				//call CC2420Config.setChannel(18);
 				channel = call CC2420Config.getChannel();
 				dbg("START", "Start node Get channel %d \n",channel);
@@ -396,7 +396,7 @@ implementation {
 		hops_rcv = rcvData->hops;
 		counterDescendants = rcvData->count + 1;
 		start = rcvData->start;
-		printf("Origin: %u Packet: %u\n", from, seqnoAux);
+		//printf("Origin: %u Packet: %u\n", from, seqnoAux);
 
 		//if(start == 70) {
 		//	initTransmission();
@@ -405,7 +405,7 @@ implementation {
 		// if this select source is for me
 		if (request_id == TOS_NODE_ID){
 			dbg("ReceivedData", "Mensagem de %d eh p mim seqno %hhu: %s\n", from, seqnoAux, sim_time_string());
-			printf("Origin: %u Packet: %u\n", from, seqnoAux);
+			//printf("Origin: %u Packet: %u\n", from, seqnoAux);
 			dbg("Channel", "Get channel %d \n",channel);
 
 			if(TOS_NODE_ID == 0){
