@@ -30,6 +30,7 @@ timeFrame
 #TODO
 Considerando cada slot de tempo como 1 segundo -> Diminuir
 */
+//startPeriodic()/startOneShot(ms) specifies the period in milliseconds 
 
 
 #include <Timer.h>
@@ -120,7 +121,7 @@ implementation {
 	uint16_t descendants = 0;
 	uint16_t time = 30;
 	uint16_t maxTime = 30000; // 30 s
-	uint16_t timeFrame = 2;
+	uint16_t timeFrame = 200;
 	bool stopBeacons = FALSE;
 
 	uint8_t channel;
@@ -138,22 +139,22 @@ implementation {
 		} else if ( (TOS_NODE_ID == 1) ) {
 			parent = 0;
 			//call CC2420Config.setChannel(18);
-			call TimerPeriodic.startOneShot(1);
+			call TimerPeriodic.startOneShot(300);
 		} else if ( (TOS_NODE_ID == 2) ) {
 			parent = 7;
 			call CC2420Config.setChannel(15);
-			call TimerPeriodic.startOneShot(1);
+			call TimerPeriodic.startOneShot(300);
 		} else if ((TOS_NODE_ID == 3) ) {
 			parent = 1;
-			call TimerPeriodic.startOneShot(2);
+			call TimerPeriodic.startOneShot(600);
 		} else if ((TOS_NODE_ID == 4) ) {
 			parent = 9;
 			call CC2420Config.setChannel(11);
-			call TimerPeriodic.startOneShot(1);
+			call TimerPeriodic.startOneShot(300);
 		}  else if ((TOS_NODE_ID == 5) ) {
 			parent = 2;
 			call CC2420Config.setChannel(15);
-			call TimerPeriodic.startOneShot(2);
+			call TimerPeriodic.startOneShot(600);
 		} 
 		else if ((TOS_NODE_ID == 6) ) {
 			parent = -1;
@@ -167,11 +168,11 @@ implementation {
 		} else if ( (TOS_NODE_ID == 9) ) {
 			parent = 6;
 			call CC2420Config.setChannel(11);
-			call TimerPeriodic2.startOneShot(2);
+			call TimerPeriodic.startOneShot(600);
 		} else if ( (TOS_NODE_ID == 10) ) {
 			parent = 8;
 			call CC2420Config.setChannel(19);
-			call TimerPeriodic2.startOneShot(2);
+			call TimerPeriodic.startOneShot(600);
 		}
 
 		channel = call CC2420Config.getChannel();
