@@ -413,6 +413,7 @@ implementation {
 		if (request_id == TOS_NODE_ID){
 			dbg("ReceivedData", "Mensagem de %d eh p mim seqno %hhu: %s\n", from, seqnoAux, sim_time_string());
 			printf("%u\n", seqnoAux);
+			printfflush();
 			dbg("Channel", "Get channel %d \n",channel);
 			call Leds.led2Toggle();
 
