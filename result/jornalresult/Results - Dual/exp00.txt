@@ -1,0 +1,14 @@
+wah serial@/dev/ttyUSB0:115200
+Flushing the serial port..
+PRINTF: 1
+PRINTF: 2
+PRINTF: 4
+PRINTF: 5
+PRINTF: 7
+PRINTF: 8
+PRINTF: 9
+PRINTF: 12
+PRINTF: 13
+PRINTF: 14
+PRINTF: 16
+PRINTF: 18
