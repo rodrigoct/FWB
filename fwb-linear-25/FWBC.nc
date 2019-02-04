@@ -6,7 +6,7 @@ Topologia fixa. Pai salvo.
 				(1 9)    2
 				/ \     / 
 			   3   4   5  
-
+dury cycle 25 %
 */
 
 #include <Timer.h>
@@ -99,6 +99,7 @@ implementation {
 	uint16_t time = 30;
 	uint16_t maxTime = 30000; // 30 s
 	uint16_t timeFrame = 2100; //#Tempo de um quadro
+	uint16_t timeFrameSink = 600; //#Tempo de um quadro
 	bool stopBeacons = FALSE;
 
 	uint8_t channel;
@@ -112,25 +113,26 @@ implementation {
 
 		//########Inicializa parents of nodes and frequencies ######//
 		if (TOS_NODE_ID == 1) {
-			parent = -1;			
+			parent = -1;
+			call CC2420Config.setChannel(11);			
 		} if (TOS_NODE_ID == 2) {
-			parent = 1;
-			call TimerPeriodic.startOneShot(300);
-			call TimerPeriodic2.startOneShot(600);
-			call TimerPeriodic3.startOneShot(900);
-			call TimerPeriodic4.startOneShot(1200);
+			parent = -1;
 		} else if ( (TOS_NODE_ID == 3) ) {
-			parent = 2;
-			call TimerPeriodic.startOneShot(1500);
-			call TimerPeriodic2.startOneShot(1800);
-			call TimerPeriodic3.startOneShot(2100);
+			call CC2420Config.setChannel(11);
+			parent = 1;
+			call TimerPeriodic2.startOneShot(600);
 		} else if ( (TOS_NODE_ID == 4) ) {
-			parent = 3;
-			call TimerPeriodic.startOneShot(300);
+			parent = 2;
 			call TimerPeriodic2.startOneShot(600);
 		} else if ((TOS_NODE_ID == 5) ) {
 			parent = 4;
+			call TimerPeriodic.startOneShot(300);
+		} else if ((TOS_NODE_ID == 6) ) {
+			parent = 5;
 			call TimerPeriodic.startOneShot(600);
+		} else if ((TOS_NODE_ID == 7) ) {
+			parent = 6;
+			call TimerPeriodic.startOneShot(300);
 		}
 
 		channel = call CC2420Config.getChannel();
@@ -330,7 +332,7 @@ implementation {
 
 	event void TimerPeriodic2.fired() {
 		dbg("Time", "TimerPeriodic2 Send data: \n");
-		call TimerPeriodic2.startPeriodic(timeFrame);
+		call TimerPeriodic2.startPeriodic(timeFrameSink);
 		initData();
 	}
 
