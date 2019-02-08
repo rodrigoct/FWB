@@ -30,8 +30,8 @@ plt.ylabel(r"$y$",fontsize=14)
 #plt.xlabel(r"$y$",fontsize=12)
 
 #plt.xlabel('Node ID')
-plt.ylabel('Packets received per second (pkts/s)',fontsize=14)
-plt.xticks(x, ('Sink Node', 'Sink Node'),fontsize=14)
-plt.legend(fontsize=12)
+plt.ylabel('Packets received per second (pkts/s)',fontsize=16)
+plt.xticks(x, ('Sink Node', 'Sink Node'),fontsize=16)
+plt.legend(fontsize=14)
 
 plt.show()
